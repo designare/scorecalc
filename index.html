@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<title>Score Calculator</title>
+	<link rel="stylesheet" href="lib/twitter-bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div id="alert" class="alert"></div>
+
+<div id="displayFormula"></div>
+
+<div id="displayScore">
+
+	<div id="labels">
+		<span id="labelFullScore">Full</span>
+		<span id="labelLossScore">Loss</span>
+		<span id="labelTotalScore">Total</span>
+	</div>
+
+	<div id="values">
+		<input type="text" id="valueFullScore" />
+		<span id="labelMinus">-</span>
+		<span id="valueLossScore"></span>
+		<span id="labelEqual">=</span>
+		<span id="valueTotalScore"></span>
+	</div>
+
+	<div id="displayAverage">
+		Average score ( <span id="valueAverageCount"></span> ) : <span id="valueAverageScore"></span> &nbsp;&nbsp;
+	</div>
+
+</div>
+
+<div id="calculator" style="width:100%">
+	<div>
+		<div id="button7" value="7" class="button btn-digit">7</div>
+		<div id="button8" value="8" class="button btn-digit">8</div>
+		<div id="button9" value="9" class="button btn-digit">9</div>
+	</div>
+	<div>
+		<div id="button4" value="4" class="button btn-digit">4</div>
+		<div id="button5" value="5" class="button btn-digit">5</div>
+		<div id="button6" value="6" class="button btn-digit">6</div>
+	</div>
+	<div>
+		<div id="button1" value="1" class="button btn-digit">1</div>
+		<div id="button2" value="2" class="button btn-digit">2</div>
+		<div id="button3" value="3" class="button btn-digit">3</div>
+	</div>
+	<div>
+		<div id="button10" value="10" class="button btn-digit">10</div>
+	</div>
+	<div>
+		<div id="buttonC" class="button btn-control">C</div>
+		<div id="buttonAC" class="button btn-control">AC</div>
+		<div id="buttonUndo" class="button btn-control">Del</div>
+		<div id="buttonBack" class="button btn-control">Back</div>
+		<div id="buttonNext" class="button btn-control">Next</div>
+	</div>
+</div>
+
+<!-- libs vendors-->
+<script type="text/javascript" src="lib/underscore/underscore-1.4.4.min.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery.animate-colors-min.js"></script>
+<!--<script type="text/javascript" src="lib/twitter-bootstrap/js/bootstrap.min.js"></script>-->
+
+<!-- libs tangit-->
+<script type="text/javascript" src="js/tangit/device.js"></script>
+<script type="text/javascript" src="js/tangit/event.js"></script>
+<script type="text/javascript" src="js/tangit/view.js"></script>
+
+<!-- classes -->
+<script type="text/javascript" src="js/storage.js"></script>
+<script type="text/javascript" src="js/score.js"></script>
+<script type="text/javascript" src="js/scoreHistory.js"></script>
+<script type="text/javascript" src="js/calculator_view_layout.js"></script>
+<script type="text/javascript" src="js/calculator_view.js"></script>
+
+</body>
+</html>

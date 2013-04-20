@@ -1,0 +1,87 @@
+body {
+	margin: 8px;
+	padding: 0;
+	background-color: #fff;
+	visibility: hidden;
+}
+
+div#alert {
+	display: none;
+	position: absolute;
+	z-index: 9999;
+}
+div#alert.alert {
+	padding: 8px 0;
+}
+
+/* #displayFormula */
+div#displayFormula {
+	position: relative;
+	text-align: right;
+	background-color: #fff;
+}
+
+/* #displayScore */
+div#displayScore {
+	position: relative;
+	background-color: #fff;
+}
+
+div#displayScore #labelFullScore,
+div#displayScore #labelLossScore,
+div#displayScore #labelTotalScore {
+	position: absolute;
+	text-align: center;
+}
+
+div#displayScore #valueFullScore,
+div#displayScore #labelMinus,
+div#displayScore #valueLossScore,
+div#displayScore #labelEqual,
+div#displayScore #valueTotalScore {
+	position: absolute;
+	text-align: center;
+	font-size: x-large;
+}
+div#displayScore #valueTotalScore {
+	font-size: xx-large;
+	color: #993300;
+}
+
+div#displayScore #displayAverage {
+	position: absolute;
+	text-align: right;
+}
+
+/* #calculator */
+div#calculator {
+	position: relative;
+	background-color: #fff;
+}
+
+div#calculator .button {
+	position: absolute;
+	float: left;
+	background-color: #f3f3f3;
+	border-bottom: 1px solid #bbb;
+	border-right: 1px solid #bbb;
+	text-align: center;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	border-radius:4px;
+	color: #333340;
+}
+div#calculator .button:active {
+	background: -webkit-gradient(linear, left top, left bottom, from(#74A9D6), to(#1987E5));
+	color: #fff;
+}
+
+div#calculator .btn-digit {
+	font-size: xx-large;
+}
+div#calculator .btn-control {
+	font-size: x-large;
+}
+div#calculator .btn-disabled {
+	color: #ccc;
+}
