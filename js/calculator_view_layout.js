@@ -35,13 +35,13 @@
 					grids: {top: 0, left: 0, width: 60, height: 14},
 					pxPadding: {top: 0, right: 0, bottom: 0, left: 0}
 				},
-				labelFullScore: {
+				labelBaseScore: {
 					layout: {
 						grids: {top: 0, left: 0, width: 14, height: 2},
 						pxPadding: {top: 2, right: 2, bottom: 2, left: 2}
 					}
 				},
-				labelLossScore: {
+				labelDiffScore: {
 					layout: {
 						grids: {top: 0, left: 23, width: 14, height: 2},
 						pxPadding: {top: 2, right: 2, bottom: 2, left: 2}
@@ -54,19 +54,19 @@
 					}
 				},
 				
-				valueFullScore: {
+				valueBaseScore: {
 					layout: {
 						grids: {top: 2, left: 0, width: 14, height: 6},
 						pxPadding: {top: 4, right: 2, bottom: 2, left: 2}
 					}
 				},
-				labelMinus: {
+				labelOperator: {
 					layout: {
 						grids: {top: 2, left: 14, width: 9, height: 6},
 						pxPadding: {top: 8, right: 2, bottom: 2, left: 2}
 					}
 				},
-				valueLossScore: {
+				valueDiffScore: {
 					layout: {
 						grids: {top: 2, left: 23, width: 14, height: 6},
 						pxPadding: {top: 8, right: 2, bottom: 2, left: 2}
@@ -158,31 +158,37 @@
 				},
 				buttonC: {
 					layout: {
-						grids: {top: 40, left: 0, width: 15, height: 10},
+						grids: {top: 40, left: 0, width: 12, height: 10},
 						pxPadding: {top: 2, right: 2, bottom: 2, left: 2}
 					}
 				},
 				buttonAC: {
 					layout: {
-						grids: {top: 40, left: 0, width: 15, height: 10},
+						grids: {top: 40, left: 0, width: 12, height: 10},
 						pxPadding: {top: 2, right: 2, bottom: 2, left: 2}
 					}
 				},
 				buttonUndo: {
 					layout: {
-						grids: {top: 40, left: 15, width: 15, height: 10},
+						grids: {top: 40, left: 12, width: 12, height: 10},
+						pxPadding: {top: 2, right: 2, bottom: 2, left: 2}
+					}
+				},
+				buttonMode: {
+					layout: {
+						grids: {top: 40, left: 24, width: 12, height: 10},
 						pxPadding: {top: 2, right: 2, bottom: 2, left: 2}
 					}
 				},
 				buttonBack: {
 					layout: {
-						grids: {top: 40, left: 30, width: 15, height: 10},
+						grids: {top: 40, left: 36, width: 12, height: 10},
 						pxPadding: {top: 2, right: 2, bottom: 2, left: 2}
 					}
 				},
 				buttonNext: {
 					layout: {
-						grids: {top: 40, left: 45, width: 15, height: 10},
+						grids: {top: 40, left: 48, width: 12, height: 10},
 						pxPadding: {top: 2, right: 2, bottom: 2, left: 2}
 					}
 				}
@@ -264,12 +270,12 @@
 			/*
 			 * スコア表示部
 			 */
-			$('#displayScore #labelFullScore').css( this._getLayout('displayScore.labelFullScore') );
-			$('#displayScore #labelLossScore').css( this._getLayout('displayScore.labelLossScore') );
+			$('#displayScore #labelBaseScore').css( this._getLayout('displayScore.labelBaseScore') );
+			$('#displayScore #labelDiffScore').css( this._getLayout('displayScore.labelDiffScore') );
 			$('#displayScore #labelTotalScore').css( this._getLayout('displayScore.labelTotalScore') );
-			$('#displayScore #valueFullScore').css( this._getLayout('displayScore.valueFullScore') );
-			$('#displayScore #labelMinus').css( this._getLayout('displayScore.labelMinus') );
-			$('#displayScore #valueLossScore').css( this._getLayout('displayScore.valueLossScore') );
+			$('#displayScore #valueBaseScore').css( this._getLayout('displayScore.valueBaseScore') );
+			$('#displayScore #labelOperator').css( this._getLayout('displayScore.labelOperator') );
+			$('#displayScore #valueDiffScore').css( this._getLayout('displayScore.valueDiffScore') );
 			$('#displayScore #labelEqual').css( this._getLayout('displayScore.labelEqual') );
 			$('#displayScore #valueTotalScore').css( this._getLayout('displayScore.valueTotalScore') );
 			$('#displayScore #displayAverage').css( this._getLayout('displayScore.displayAverage') );
@@ -297,6 +303,7 @@
 			$('#calculator #buttonC').css( this._getLayout('calculator.buttonC') );
 			$('#calculator #buttonAC').css( this._getLayout('calculator.buttonAC') );
 			$('#calculator #buttonUndo').css( this._getLayout('calculator.buttonUndo') );
+			$('#calculator #buttonMode').css( this._getLayout('calculator.buttonMode') );
 			$('#calculator #buttonBack').css( this._getLayout('calculator.buttonBack') );
 			$('#calculator #buttonNext').css( this._getLayout('calculator.buttonNext') );
 			

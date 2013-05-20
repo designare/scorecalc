@@ -27,8 +27,7 @@
 	/**
 	 * 定数宣言
 	 */
-	CalculatorView.Config = {
-	};
+	CalculatorView.Config = {};
 	
 	/**
 	 * 初期処理
@@ -60,9 +59,13 @@
 		this.score.pop();
 		this._render();
 	};
+	CalculatorView.prototype._toggleMode = function() {
+		this.score.toggleMode();
+		this._render();
+	};
 	CalculatorView.prototype._next = function() {
 		this.scoreHistory.push(this.score);
-		this.score = new Score(this.fullScore);
+		this.score = new Score(this.baseScore);
 		this._render();
 		this._effectDisplayAverage('next');
 	};
@@ -72,9 +75,9 @@
 		this._render();
 		this._effectDisplayAverage('back');
 	};
-	CalculatorView.prototype._setFullScore = function(value) {
-		if (!this.score.setFullScore(value, true)) {
-			this._alert('Please input number. (0 - ' + Score.Config.FULL_SCORE_MAX + ')');
+	CalculatorView.prototype._setBaseScore = function(value) {
+		if (!this.score.setBaseScore(value, true)) {
+			this._alert('Please input number. (0 - ' + Score.Config.BASE_SCORE_MAX + ')');
 		}
 		this._render();
 	};
@@ -113,11 +116,22 @@
 	 */
 	CalculatorView.prototype._render = function() {
 		$('#displayFormula').html(this.score.getFormula());
-		$('#valueFullScore').val(this.score.getFullScore());
-		$('#valueLossScore').html(this.score.getLossScore());
+		$('#valueBaseScore').val(this.score.getBaseScore());
+		$('#valueDiffScore').html(this.score.getDiffScore());
 		$('#valueTotalScore').html(this.score.getTotalScore());
 		$('#valueAverageCount').html(this.scoreHistory.getCount());
 		$('#valueAverageScore').html(this.scoreHistory.getAverageScore(1));
+		
+		// ラベル表示制御
+		if (this.score.isPlusMode()) {
+			$('#labelBaseScore').html('Base');
+			$('#labelDiffScore').html('Gain');
+			$('#labelOperator').html('+');
+		} else {
+			$('#labelBaseScore').html('Full');
+			$('#labelDiffScore').html('Loss');
+			$('#labelOperator').html('-');
+		}
 		
 		// ボタン表示制御
 		if (this.score.getCount() == 0) {
@@ -184,6 +198,10 @@
 					self._undo();
 					break;
 
+				case 'buttonMode':
+					self._toggleMode();
+					break;
+
 				case 'buttonBack':
 					self._back();
 					break;
@@ -215,24 +233,24 @@
 		});
 		
 		/**
-		 * フルスコア選択
+		 * ベーススコア選択
 		 */
-		$('#valueFullScore').bind('mouseup', this, function(e){
+		$('#valueBaseScore').bind('mouseup', this, function(e){
 			$(this).select();
 		});
 		
 		/**
-		 * フルスコア変更
+		 * ベーススコア変更
 		 */
-		$('#valueFullScore').bind('change', this, function(e){
+		$('#valueBaseScore').bind('change', this, function(e){
 			var self = e.data;
-			self._setFullScore( Number($('#valueFullScore').val()) );
+			self._setBaseScore( Number($('#valueBaseScore').val()) );
 		});
 		
 		/**
-		 * フルスコア：キーダウン
+		 * ベーススコア：キーダウン
 		 */
-		$('#valueFullScore').bind('keydown', this, function(e){
+		$('#valueBaseScore').bind('keydown', this, function(e){
 			if (e.keyCode == '13') {
 				$(this).blur();	// Enter：選択解除
 			}

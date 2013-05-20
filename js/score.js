@@ -5,21 +5,23 @@
 	 */
 	Score = function() {
 		
-		// フルスコア
-		this.fullScore = null;
+		// モード（加点/減点）
+		this.mode = null;
 		
-		// 失点（lossesの合計）
-		this.lossScore;
+		// ベーススコア
+		this.baseScore = null;
 		
-		// 合計点（フルスコア - 失点）
+		// 差分点（diffsの合計）
+		this.diffScore;
+		
+		// 合計点（ベーススコア +/- 差分点）
 		this.totalScore;
 		
-		// 失点の配列
-		this.losses = [];
+		// 差分点の配列
+		this.diffs = [];
 		
 		// 初期化処理
-		this.initFullScore();
-		this.calculate();
+		this.initMode();
 		
 		return this;
 	};
@@ -28,8 +30,13 @@
 	 * 定数
 	 */
 	Score.Config = {
-		FULL_SCORE_DEFAULT : 100,
-		FULL_SCORE_MAX : 100000,
+		BASE_SCORE_MINUS_DEFAULT: 100,
+		BASE_SCORE_PLUS_DEFAULT: 0,
+		BASE_SCORE_MAX: 100000,
+		MODE: {
+			PLUS: 1,
+			MINUS: 2
+		}
 	};
 	
 	/*
@@ -38,101 +45,177 @@
 	Score.prototype = {
 
 		/*
-		 * フルスコアを初期化
+		 * モードを初期化
 		 */
-		initFullScore: function() {
+		initMode: function() {
 			// キャッシュから取得
-			var value = Storage.getFullScore();
+			var value = Storage.getMode();
 			
 			// 初期値セット
 			if (value == null) {
-				this.setFullScore(Number(Score.Config.FULL_SCORE_DEFAULT), true);
+				this.setMode(Number(Score.Config.MODE.MINUS), true);
 			} else {
-				this.setFullScore(Number(value), false);
+				this.setMode(Number(value), false);
 			}
 		},
 
 		/*
-		 * フルスコアをセット
+		 * モードをセット
 		 */
-		setFullScore: function(value, doCache) {
+		setMode: function(value, doCache) {
+			var config = Score.Config.MODE;
+			
 			// バリデーション
 			if (typeof value === 'undefined'
-					|| ! _.isNumber(value)
-					|| ! (value>=0 && value<=Score.Config.FULL_SCORE_MAX)) {
+					|| !(value == config.PLUS || value == config.MINUS)) {
 				return false;
 			}
 			
 			// 値セットし再計算
-			this.fullScore = value;
+			this.mode = value;
+			this.initBaseScore();
 			this.calculate();
 			
 			// キャッシュ化
 			if (doCache) {
-				Storage.setFullScore(value);
+				Storage.setMode(value);
+			}
+			return true;
+		},
+		
+		/*
+		 * モードを切り替え
+		 */
+		toggleMode: function() {
+			var config = Score.Config.MODE;
+			if (this.isPlusMode()) {
+				this.setMode(config.MINUS, true);
+			} else {
+				this.setMode(config.PLUS, true);
+			}
+		},
+
+		/*
+		 * ベーススコアを初期化
+		 */
+		initBaseScore: function() {
+			// キャッシュから取得
+			var value = this.isPlusMode() ? Storage.getBaseScorePlus() : Storage.getBaseScoreMinus();
+			
+			// 初期値セット
+			var config = Score.Config;
+			if (value == null) {
+				if (this.isPlusMode()) {
+					this.setBaseScore(Number(config.BASE_SCORE_PLUS_DEFAULT), true);
+				} else {
+					this.setBaseScore(Number(config.BASE_SCORE_MINUS_DEFAULT), true);
+				}
+			} else {
+				if (this.isPlusMode()) {
+					this.setBaseScore(Number(value), false);
+				} else {
+					this.setBaseScore(Number(value), false);
+				}
+			}
+		},
+
+		/*
+		 * ベーススコアをセット
+		 */
+		setBaseScore: function(value, doCache) {
+			// バリデーション
+			if (typeof value === 'undefined'
+					|| ! _.isNumber(value)
+					|| ! (value>=0 && value<=Score.Config.BASE_SCORE_MAX)) {
+				return false;
+			}
+			
+			// 値セットし再計算
+			this.baseScore = value;
+			this.calculate();
+			
+			// キャッシュ化
+			if (doCache) {
+				if (this.isPlusMode()) {
+					Storage.setBaseScorePlus(value);
+				} else {
+					Storage.setBaseScoreMinus(value);
+				}
 			}
 			return true;
 		},
 
 		/*
-		 * 失点を追加
+		 * 差分点を追加
 		 */
 		push: function(value) {
-			this.losses.push(value);
+			this.diffs.push(value);
 			value = parseInt(value);
-			this.totalScore -= value;
-			this.lossScore += value;
-		},
-
-		/*
-		 * 失点を１つ削除
-		 */
-		pop: function() {
-			if (this.losses.length > 0) {
-				var value = parseInt(this.losses.pop());
+			this.diffScore += value;
+			if (this.isPlusMode()) {
 				this.totalScore += value;
-				this.lossScore -= value;
+			} else {
+				this.totalScore -= value;
 			}
 		},
 
 		/*
-		 * 失点をクリア
+		 * 差分点を１つ削除
+		 */
+		pop: function() {
+			if (this.diffs.length > 0) {
+				var value = parseInt(this.diffs.pop());
+				this.diffScore -= value;
+				if (this.isPlusMode()) {
+					this.totalScore -= value;
+				} else {
+					this.totalScore += value;
+				}
+			}
+		},
+
+		/*
+		 * 差分点をクリア
 		 */
 		clear: function() {
-			this.losses = [];
+			this.diffs = [];
 			this.calculate();
 		},
 
 		/*
-		 * 登録失点の数を取得
+		 * 登録差分点の数を取得
 		 */
 		getCount: function() {
-			return this.losses.length;
+			return this.diffs.length;
 		},
 
 		/*
 		 * 計算
 		 */
 		calculate: function() {
-			// 失点
-			var loss = 0;
-			for (var i=0; i<this.losses.length; i++) {
-				loss += parseInt(this.losses[i]);
+			// 差分点
+			var diff = 0;
+			for (var i=0; i<this.diffs.length; i++) {
+				diff += parseInt(this.diffs[i]);
 			}
-			this.lossScore = loss;
+			this.diffScore = diff;
 			
 			// 合計点
-			this.totalScore = this.fullScore - this.lossScore;
+			if (this.isPlusMode()) {
+				this.totalScore = this.baseScore + this.diffScore;
+			} else {
+				this.totalScore = this.baseScore - this.diffScore;
+			}
 		},
 
 		/*
 		 * getter
 		 */
-		getFullScore: function() {
-			return this.fullScore;
+		getBaseScore: function() {
+			return this.baseScore;
 		},
-		getLossScore: function() {
-			return this.lossScore;
+		getDiffScore: function() {
+			return this.diffScore;
 		},
 		getTotalScore: function() {
 			return this.totalScore;
@@ -143,10 +226,24 @@
 		 */
 		getFormula: function() {
 			var formula = "";
-			for (var i=0; i<this.losses.length; i++) {
-				formula += String(this.losses[i]) + " + ";
+			for (var i=0; i<this.diffs.length; i++) {
+				formula += String(this.diffs[i]) + " + ";
 			}
 			return formula;
+		},
+		
+		/**
+		 * プラスモード判定
+		 */
+		isPlusMode: function() {
+			return this.mode == Score.Config.MODE.PLUS;
+		},
+		
+		/**
+		 * マイナスモード判定
+		 */
+		isMinusMode: function() {
+			return this.mode == Score.Config.MODE.MINUS;
 		}
 
 	};

@@ -27,16 +27,16 @@ div#displayScore {
 	background-color: #fff;
 }
 
-div#displayScore #labelFullScore,
-div#displayScore #labelLossScore,
+div#displayScore #labelBaseScore,
+div#displayScore #labelDiffScore,
 div#displayScore #labelTotalScore {
 	position: absolute;
 	text-align: center;
 }
 
-div#displayScore #valueFullScore,
-div#displayScore #labelMinus,
-div#displayScore #valueLossScore,
+div#displayScore #valueBaseScore,
+div#displayScore #labelOperator,
+div#displayScore #valueDiffScore,
 div#displayScore #labelEqual,
 div#displayScore #valueTotalScore {
 	position: absolute;

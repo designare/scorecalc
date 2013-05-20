@@ -10,7 +10,9 @@
 	 */
 	Storage.Config = {
 		KEY: {
-			'FULL_SCORE': 'FULL_SCORE'
+			'MODE': 'MODE',
+			'BASE_SCORE_PLUS': 'BASE_SCORE_PLUS',
+			'BASE_SCORE_MINUS': 'BASE_SCORE_MINUS'
 		}
 	};
 	
@@ -62,9 +64,21 @@
 	 * setter / getter
 	 ----------------------*/
 	/**
-	 * フルスコア
+	 * モード
 	 */
-	Storage.setFullScore = function(value) {return Storage._set('FULL_SCORE', value)};
-	Storage.getFullScore = function() {return Storage._get('FULL_SCORE')};
+	Storage.setMode = function(value) {return Storage._set('MODE', value)};
+	Storage.getMode = function() {return Storage._get('MODE')};
+
+	/**
+	 * ベーススコア（加点モード）
+	 */
+	Storage.setBaseScorePlus = function(value) {return Storage._set('BASE_SCORE_PLUS', value)};
+	Storage.getBaseScorePlus = function() {return Storage._get('BASE_SCORE_PLUS')};
+
+	/**
+	 * ベーススコア（減点モード）
+	 */
+	Storage.setBaseScoreMinus = function(value) {return Storage._set('BASE_SCORE_MINUS', value)};
+	Storage.getBaseScoreMinus = function() {return Storage._get('BASE_SCORE_MINUS')};
 
 })();
