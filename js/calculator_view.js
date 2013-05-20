@@ -233,13 +233,6 @@
 		});
 		
 		/**
-		 * ベーススコア選択
-		 */
-		$('#valueBaseScore').bind('mouseup', this, function(e){
-			$(this).select();
-		});
-		
-		/**
 		 * ベーススコア変更
 		 */
 		$('#valueBaseScore').bind('change', this, function(e){
