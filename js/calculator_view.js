@@ -124,11 +124,9 @@
 		
 		// ラベル表示制御
 		if (this.score.isPlusMode()) {
-			$('#labelBaseScore').html('Base');
 			$('#labelDiffScore').html('Gain');
 			$('#labelOperator').html('+');
 		} else {
-			$('#labelBaseScore').html('Full');
 			$('#labelDiffScore').html('Loss');
 			$('#labelOperator').html('-');
 		}
@@ -230,6 +228,18 @@
 			var self = e.data;
 			self._undo();
 			self._finishTouching();
+		});
+		
+		/**
+		 * ベーススコア選択
+		 */
+		$('#valueBaseScore').bind('mouseup', this, function(e){
+			$(this).val('');
+		});
+		$('#valueBaseScore').bind('blur', this, function(e){
+			if ($(this).val() == '') {
+				$(this).val(e.data.score.getBaseScore());
+			}
 		});
 		
 		/**
